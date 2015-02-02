@@ -3,6 +3,7 @@
 
 import os
 import sys
+import glob
 import asyncio
 from PyQt5.QtCore import QCoreApplication
 from quamash import QEventLoop
@@ -29,18 +30,17 @@ def load_mod(path):
     return Mod(path)
 
 @asyncio.coroutine
-def load_all_mods(path):
+def load_all_mods(pattern):
     mods = []
-    print("Loading mods from {}".format(path))
-    # TODO: make os.listdir a generator to be truly asynchronous
-    for i in sorted(os.listdir(path)):
+    print("Loading mods from {}".format(pattern))
+    for i in glob.iglob(pattern):
         mod = yield from load_mod(i)
         mods.append(mod)
     return mods
 
 @asyncio.coroutine
 def do_the_shit():
-    mods = yield from load_all_mods("./mods")
+    mods = yield from load_all_mods("./mods/*.json")
     print(mods)
 
 if __name__ == '__main__':
