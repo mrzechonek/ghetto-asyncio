@@ -2,6 +2,7 @@
 
 from itertools import count
 
+
 def echo():
     for i in count(1):
         print("%i> " % i, end="")

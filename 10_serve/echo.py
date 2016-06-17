@@ -1,7 +1,6 @@
 import socket
 from itertools import count
 
-
 __all__ = ('server', )
 
 

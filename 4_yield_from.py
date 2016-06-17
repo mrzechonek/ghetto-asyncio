@@ -2,9 +2,11 @@
 
 from itertools import count
 
+
 def async_input():
     text = yield input
     return text
+
 
 def echo():
     for i in count(1):

@@ -4,7 +4,6 @@ import select
 import socket
 from itertools import count
 
-
 tasks = {}
 
 
@@ -39,6 +38,7 @@ def echo(client, address):
 
 poll = select.poll()
 
+
 def create_task(task):
     fileno, eventmask = task.send(None)
 
@@ -56,4 +56,3 @@ while True:
             create_task(task)
         except StopIteration:
             pass
-

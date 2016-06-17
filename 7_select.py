@@ -4,7 +4,6 @@ import select
 import socket
 from itertools import count
 
-
 tasks = {}
 
 
@@ -53,4 +52,3 @@ while True:
             tasks[fileno].send(None)
         except StopIteration:
             pass
-

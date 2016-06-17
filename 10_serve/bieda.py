@@ -5,6 +5,7 @@ import select
 
 
 class MainLoop:
+
     def __init__(self):
         self.tasks = {}
         self.poll = select.poll()
@@ -47,4 +48,3 @@ _loop = MainLoop()
 
 def get_event_loop():
     return _loop
-
