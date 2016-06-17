@@ -1,11 +1,13 @@
 #!/usr/bin/env python3.5
 
-def periodic_task():
-    while True:
-        print("> ", end="")
+from itertools import count
+
+def echo():
+    for i in count(1):
+        print("%i> " % i, end="")
         yield input
 
-task = periodic_task()
+task = echo()
 
 try:
     event = next(task)

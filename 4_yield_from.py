@@ -1,16 +1,18 @@
 #!/usr/bin/env python3.5
 
+from itertools import count
+
 def async_input():
     text = yield input
     return text
 
-def periodic_task():
-    while True:
-        print("> ", end="")
+def echo():
+    for i in count(1):
+        print("%i> " % i, end="")
         text = yield from async_input()
         print("Received '%s'" % text)
 
-task = periodic_task()
+task = echo()
 
 try:
     event = next(task)
