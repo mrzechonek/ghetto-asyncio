@@ -12,7 +12,7 @@ def echo():
     for i in count():
         print("%i> " % i, end="")
         text = yield from async_input()
-        print("Received '%s'" % text)
+        print("Received %s" % text)
 
 task = echo()
 

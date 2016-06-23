@@ -21,11 +21,11 @@ def echo(client):
 
     for i in count():
         client.sendall(b"%i> " % i)
-        buffer = client.recv(1024)
-        if not buffer:
+        text = client.recv(1024)
+        if not text:
             break
 
-        client.sendall(buffer)
+        client.sendall(text)
 
     print("Client disconnected", address)
 

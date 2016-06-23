@@ -7,7 +7,7 @@ def echo():
     for i in count():
         print("%i> " % i, end="")
         text = yield input
-        print("Received '%s'" % text)
+        print("Received %s" % text)
 
 task = echo()
 

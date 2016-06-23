@@ -45,8 +45,12 @@ def create_task(task):
     tasks[fileno] = task
     poll.register(fileno, eventmask)
 
+
+# "start" the server
 create_task(server(('localhost', 1234)))
 
+
+# start the main loop
 while True:
     for fileno, event in poll.poll():
         poll.unregister(fileno)

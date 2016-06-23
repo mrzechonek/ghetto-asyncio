@@ -13,4 +13,4 @@ print("Waiting for connections", address)
 
 while True:
     client, address = sock.accept()
-    print("New connection", address)
+    print("Client connected", address)
