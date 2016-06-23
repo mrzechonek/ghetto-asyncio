@@ -40,7 +40,7 @@ poll = select.poll()
 
 
 def create_task(task):
-    fileno, eventmask = task.send(None)
+    fileno, eventmask = next(task)
 
     tasks[fileno] = task
     poll.register(fileno, eventmask)

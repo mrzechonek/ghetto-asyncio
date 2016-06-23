@@ -25,7 +25,7 @@ class MainLoop:
             buffer = buffer[written:]
 
     def create_task(self, task):
-        sock, eventmask = task.send(None)
+        sock, eventmask = next(task)
         fileno = sock.fileno()
 
         self.tasks[fileno] = task
