@@ -6,10 +6,10 @@ from itertools import count
 def echo():
     for i in count():
         print("%i> " % i, end="")
-        yield input
+        yield
 
 task = echo()
 
-for event in task:
-    print("[Waiting for %s]" % event, end="")
-    event()
+for i in task:
+    print("[Waiting for input]", end="")
+    input()

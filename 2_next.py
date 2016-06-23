@@ -4,7 +4,7 @@ from itertools import count
 
 
 def echo():
-    for i in count(1):
+    for i in count():
         print("%i> " % i, end="")
         yield input
 

@@ -24,7 +24,7 @@ def server(address):
 def echo(client, address):
     print("Client connected", address)
 
-    for i in count(1):
+    for i in count():
         client.sendall(b"%i> " % i)
         yield client.fileno(), select.EPOLLIN
         buffer = client.recv(1024)

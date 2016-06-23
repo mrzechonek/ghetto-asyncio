@@ -19,14 +19,14 @@ def server(address):
         yield
         client, address = sock.accept()
         task = echo(client)
-        task.send(None)
+        next(task)
         tasks[client.fileno()] = task
 
 
 def echo(client):
     print("Client connected", address)
 
-    for i in count(1):
+    for i in count():
         client.sendall(b"%i> " % i)
         yield
         buffer = client.recv(1024)

@@ -40,7 +40,7 @@ def server(address):
 def echo(client, address):
     print("Client connected", address)
 
-    for i in count(1):
+    for i in count():
         yield from sock_sendall(client, b"%i> " % i)
         buffer = yield from sock_recv(client, 1024)
         if not buffer:
