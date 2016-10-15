@@ -1,11 +1,9 @@
 #!/usr/bin/env python3.5
-
 import select
 import socket
 from itertools import count
 
 tasks = {}
-
 
 def server(address):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -22,7 +20,6 @@ def server(address):
         next(task)
         tasks[client.fileno()] = task
 
-
 def echo(client):
     print("Client connected", address)
 
@@ -37,12 +34,11 @@ def echo(client):
 
     print("Client disconnected", address)
 
-
 tasks[sock.fileno()] = server(('localhost', 1234))
-
 
 poll = select.poll()
 
+# main loop
 while True:
     for fileno, task in tasks.items():
         poll.register(fileno, select.EPOLLIN)

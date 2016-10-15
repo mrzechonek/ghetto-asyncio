@@ -1,8 +1,6 @@
 #!/usr/bin/env python3.5
-
 import socket
 from itertools import count
-
 
 def server(address):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -14,7 +12,6 @@ def server(address):
     while True:
         client, address = sock.accept()
         echo(client)
-
 
 def echo(client):
     print("Client connected", address)
@@ -28,6 +25,5 @@ def echo(client):
         client.sendall(text)
 
     print("Client disconnected", address)
-
 
 server(('localhost', 1234))

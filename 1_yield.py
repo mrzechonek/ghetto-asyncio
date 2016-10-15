@@ -1,7 +1,5 @@
 #!/usr/bin/env python3.5
-
 from itertools import count
-
 
 def echo():
     for i in count():

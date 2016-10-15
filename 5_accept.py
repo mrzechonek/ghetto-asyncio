@@ -1,5 +1,4 @@
 #!/usr/bin/env python3.5
-
 import socket
 
 address = ('localhost', 1234)
