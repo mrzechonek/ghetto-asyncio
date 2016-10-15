@@ -6,42 +6,52 @@ from itertools import count
 tasks = {}
 poll = select.poll()
 
-def server(address):
+def makesocket(*address):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     sock.bind(address)
     sock.listen(16)
     sock.setblocking(False)
 
-    print("Waiting for connections", address)
+    return sock
+
+def server(sock):
+    print("Waiting for connections", sock)
     while True:
         yield
         client, address = sock.accept()
+
         task = echo(client)
         next(task)
         tasks[client.fileno()] = task
 
 def echo(client):
-    print("Client connected", address)
+    print("Client connected", client)
 
     for i in count():
+        yield
         client.sendall(b"%i> " % i)
+
         yield
         buffer = client.recv(1024)
+
         if not buffer:
             break
 
         client.sendall(buffer)
 
-    print("Client disconnected", address)
+    print("Client disconnected", client)
 
 # start the server
-tasks[sock.fileno()] = server(('localhost', 1234))
+sock = makesocket('localhost', 1234)
+serv = server(sock)
+next(serv)
+tasks[sock.fileno()] = serv
 
 # main loop
 while True:
     for fileno, task in tasks.items():
-        poll.register(fileno, select.EPOLLIN)
+        poll.register(fileno, select.EPOLLIN | select.EPOLLOUT)
 
     for fileno, event in poll.poll():
         poll.unregister(fileno)

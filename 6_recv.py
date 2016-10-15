@@ -2,19 +2,21 @@
 import socket
 from itertools import count
 
-def server(address):
+def makesocket(*address):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     sock.bind(address)
     sock.listen(16)
+    return sock
 
-    print("Waiting for connections", address)
+def server(sock):
+    print("Waiting for connections", sock)
     while True:
         client, address = sock.accept()
         echo(client)
 
 def echo(client):
-    print("Client connected", address)
+    print("Client connected", client)
 
     for i in count():
         client.sendall(b"%i> " % i)
@@ -24,6 +26,7 @@ def echo(client):
 
         client.sendall(text)
 
-    print("Client disconnected", address)
+    print("Client disconnected", client)
 
-server(('localhost', 1234))
+sock = makesocket('localhost', 1234)
+server(sock)

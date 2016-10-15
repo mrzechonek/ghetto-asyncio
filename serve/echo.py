@@ -11,14 +11,14 @@ def server(loop, address):
     sock.listen(16)
     sock.setblocking(False)
 
-    print("Waiting for connections", address)
+    print("Waiting for connections", sock)
     while True:
         client, address = yield from loop.sock_accept(sock)
-        loop.create_task(echo(loop, client, address))
+        loop.create_task(echo(loop, client))
 
 
-def echo(loop, client, address):
-    print("Client connected", address)
+def echo(loop, client):
+    print("Client connected", client)
 
     for i in count(1):
         yield from loop.sock_sendall(client, b"%i> " % i)
@@ -28,4 +28,4 @@ def echo(loop, client, address):
 
         yield from loop.sock_sendall(client, buffer)
 
-    print("Client disconnected", address)
+    print("Client disconnected", client)

@@ -20,20 +20,23 @@ def sock_sendall(sock, buffer):
         written = sock.send(buffer)
         buffer = buffer[written:]
 
-def server(address):
+def makesocket(*address):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     sock.bind(address)
     sock.listen(16)
     sock.setblocking(False)
 
-    print("Waiting for connections", address)
+    return sock
+
+def server(sock):
+    print("Waiting for connections", sock)
     while True:
         client, address = yield from sock_accept(sock)
-        create_task(echo(client, address))
+        create_task(echo(client))
 
-def echo(client, address):
-    print("Client connected", address)
+def echo(client):
+    print("Client connected", client)
 
     for i in count(1):
         yield from sock_sendall(client, b"%i> " % i)
@@ -43,7 +46,7 @@ def echo(client, address):
 
         yield from sock_sendall(client, buffer)
 
-    print("Client disconnected", address)
+    print("Client disconnected", client)
 
 def create_task(task):
     fileno, eventmask = next(task)
@@ -52,7 +55,7 @@ def create_task(task):
     poll.register(fileno, eventmask)
 
 # "start" the server
-create_task(server(('localhost', 1234)))
+create_task(server(makesocket('localhost', 1234)))
 
 # main loop
 while tasks:
