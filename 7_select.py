@@ -4,6 +4,7 @@ import socket
 from itertools import count
 
 tasks = {}
+poll = select.poll()
 
 def server(address):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -34,9 +35,8 @@ def echo(client):
 
     print("Client disconnected", address)
 
+# start the server
 tasks[sock.fileno()] = server(('localhost', 1234))
-
-poll = select.poll()
 
 # main loop
 while True:
@@ -44,6 +44,8 @@ while True:
         poll.register(fileno, select.EPOLLIN)
 
     for fileno, event in poll.poll():
+        poll.unregister(fileno)
+
         try:
             tasks[fileno].send(None)
         except StopIteration:
